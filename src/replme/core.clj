@@ -5,7 +5,7 @@
             [replme.web.routes :as routes])
   (:gen-class true :main))
 
-(defn- system
+(defn system
   [{:keys [port docker-url]
     :or {port 8080 docker-url "unix:///var/run/docker.sock"}}]
   (component/system-map

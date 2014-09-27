@@ -22,7 +22,10 @@
   :source-paths ["src"]
 
   :profiles {:uberjar {:main replme.core
-                       :aot [replme.core]}}
+                       :aot [replme.core]}
+             
+             :dev {:source-paths ["dev"]
+                   :dependencies [[org.clojure/tools.namespace "0.2.3"]]}}
 
   :cljsbuild {
               :builds [{:id "replme"
