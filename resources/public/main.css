@@ -18,6 +18,13 @@ body {
     font-family: 'Ubuntu Mono', sans-serif
 }
 
+#vote-for-us {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100px;
+}
+
 #site-title {
     text-align: center;
     font-size: 50px;
