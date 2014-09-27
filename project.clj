@@ -21,7 +21,8 @@
 
   :source-paths ["src"]
 
-  :profiles {:uberjar {:main replme.core}}
+  :profiles {:uberjar {:main replme.core
+                       :aot [replme.core]}}
 
   :cljsbuild {
               :builds [{:id "replme"
