@@ -2,8 +2,8 @@
   :description "repl me"
   :url "replme.clojurecup.com"
 
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :license {:name "GNU Affero General Public License v3"
+            :url "https://www.gnu.org/licenses/agpl-3.0.html"}
 
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [http-kit "2.1.18"]
