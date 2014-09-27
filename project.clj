@@ -10,6 +10,9 @@
                  [compojure "1.1.9"]
                  [liberator "0.12.2"]
                  [clj-http "1.0.0"]
+                 [javax.servlet/servlet-api "2.5"]
+                 [org.clojure/tools.logging "0.2.6"]
+                 [com.stuartsierra/component "0.2.2"]
                  [org.clojure/tools.nrepl "0.2.5"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [org.clojure/clojurescript "0.0-2311"]]
@@ -19,11 +22,11 @@
   :source-paths ["src"]
 
   :cljsbuild {
-    :builds [{:id "replme"
-              :source-paths ["src"]
-              :compiler {
-                :output-to "resources/public/replme.js"
-                :output-dir "resources/public/out"
-                :optimizations :none
-                :source-map true}}]})
+              :builds [{:id "replme"
+                        :source-paths ["src"]
+                        :compiler {
+                                   :output-to "resources/public/replme.js"
+                                   :output-dir "resources/public/out"
+                                   :optimizations :none
+                                   :source-map true}}]})
 
