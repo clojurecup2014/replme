@@ -6,14 +6,17 @@
 
 (enable-console-print!)
 
-
 (def repl-config (js-obj "promptLabel" ">>"
                          "autofocus" true
+                         "welcomeMessage" "Welcome! Type in some clojure to get started"
                          "animateScroll" true
+                         "commandHandle" (fn [line] (array (js-obj "msg" line "className" "jquery-console-message-value")))
                          "promptHistory" true))
 
-(.console $repl-container repl-config)
 
-(println "Repl Me.")
+(defn setup-console []
+  (.console $repl-container repl-config))
 
-(document-ready (println "doc ready"))
+(println repl-config)
+
+(document-ready (setup-console))
