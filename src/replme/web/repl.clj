@@ -53,16 +53,19 @@
         port 8081]
     (go-loop [msg (<! stdout)]
       (if (re-find nrepl-sentinel msg)
+        (do
+          (log/info (str "Connecting to docker nrepl at" ip ":" port))
+          (>! out-chan "REPL OK")
           (go-loop [repl-conn (repl/connect :host ip :port port)
-                    command (<! in-chan)
-                    client (repl/client repl-conn 1000)]
-            (log/info (str "Connecting to docker nrepl at" ip ":" port))
+                    client (repl/client repl-conn 1000)
+                    command (<! in-chan)]
             (->> (repl/message client {:op :eval :code command})
                  repl/response-values
                  prn-str
-                 (>! out-chan))
-            (recur repl-conn (<! in-chan) client))
-        (recur (<! stdout))))
+                 (>! out-chan)))
+          (recur repl-conn (<! in-chan) client))
+        (do (>! out-chan msg)
+            (recur (<! stdout)))))
     [id http-client]))
 
 (defn- handle-input
