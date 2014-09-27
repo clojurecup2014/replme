@@ -15,11 +15,16 @@
   (scroll-to-bottom $container))
 
 (defn init [socket-out-pub]
-  (let [socket-out-sub (sub socket-out-pub :console (chan))
+  (let [console-out-sub (sub socket-out-pub :console (chan))
+        command-out-sub (sub socket-out-pub :command (chan))
         loading-spinner ($ :#clojure-spinner)
         loading-message ($ :#loading-message)]
-    (go-loop [msg (<! socket-out-sub)]
-      (if (= msg "REPL OK")  ;; TODO: listen to :command channel for repl ok, this no longer receives repl ok
-        (fade-out loading-spinner 500)
-        (append-text-to-container loading-message msg))
-      (recur (<! socket-out-sub)))))
+
+    (go-loop [msg (<! command-out-sub)]
+             (if (= (:message msg) "REPL OK")
+               (fade-out loading-spinner 500))
+             (recur (<! command-out-sub)))
+
+    (go-loop [msg (<! console-out-sub)]
+             (append-text-to-container loading-message msg)
+             (recur (<! console-out-sub)))))
