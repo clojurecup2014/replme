@@ -28,15 +28,16 @@ body {
     margin: 0;
     float: left;
     height: 80px;
+    line-height: 80px;
     width: 20%;
     background-color: #313131;
     text-align: center;
 }
 
 #site-title {
-    height: 80px;
     width: 200px;
     margin: 0;
+    vertical-align: middle;
     background-color: #313131;
 }
 
