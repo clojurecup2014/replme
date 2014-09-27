@@ -21,12 +21,54 @@ body {
 #site-title {
     text-align: center;
     font-size: 50px;
-    margin-bottom: 25px;
+    margin: 25px 0;
 }
 
-#repl-container {
+#repl-container { font-size: 18px }
+
+#repl-container div.jquery-console-inner { 
     width: 820px;
     min-height: 400px;
     margin: 0 auto;
     background-color: #FFCD35;
+    color: black;
+    padding:0.5em;
+    overflow:auto
+}
+
+#repl-container div.jquery-console-prompt-box {
+    color: #6F0000;
+}
+
+#repl-container span.jquery-console-prompt-label {
+    margin-right: 0.5em;
+}
+
+#repl-container div.jquery-console-focus span.jquery-console-cursor {
+    background: #fefefe;
+    color: #6F0000;
+    font-weight: bold
+}
+
+#repl-container div.jquery-console-message-error {
+    color: orangered;
+    font-family:sans-serif;
+    font-weight:bold;
+    padding:0.1em;
+}
+
+#repl-container div.jquery-console-message-value {
+    color:#1ad027;
+    font-family: monospace;
+    padding:0.1em;
+}
+
+#repl-container div.jquery-console-message-type {
+    color:#52666f;
+    font-family:monospace;
+    padding:0.1em;
+}
+
+#repl-container span.jquery-console-prompt-label {
+    font-weight:bold
 }

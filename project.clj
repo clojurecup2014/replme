@@ -15,24 +15,23 @@
                  [com.stuartsierra/component "0.2.2"]
                  [org.clojure/tools.nrepl "0.2.5"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
-                 [org.clojure/clojurescript "0.0-2311"]]
+                 [org.clojure/clojurescript "0.0-2311"]
+                 [jayq "2.5.2"]]
 
   :plugins [[lein-cljsbuild "1.0.3"]]
 
-  :source-paths ["src"]
-
   :profiles {:uberjar {:main replme.core
                        :aot [replme.core]}
-             
+
              :dev {:source-paths ["dev"]
                    :dependencies [[org.clojure/tools.namespace "0.2.3"]]}}
-
   :cljsbuild {
               :builds [{:id "replme"
                         :source-paths ["src"]
+                        :externs ["resources/public/externs/jquery.js",
+                                  "resources/public/externs/jquery_console.js"]
                         :compiler {
                                    :output-to "resources/public/replme.js"
                                    :output-dir "resources/public/out"
                                    :optimizations :none
                                    :source-map true}}]})
-
