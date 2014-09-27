@@ -26,11 +26,7 @@
   [client id]
   (let [output (chan)
         buffer (container/attach client id :logs true :stdout true)]
-    (doseq [line (line-seq buffer)]
-      (println line))
-    (go (doseq [line (line-seq buffer)]
-          (>! output line)))
-    output))
+    buffer))
 
 (defn- docker-cmd
   []
