@@ -18,4 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "phusion/ubuntu-14.04-amd64"
   config.vm.network "forwarded_port", guest: 8080, host: 8080
   config.vm.provision "shell", inline: shell
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1024
+  end
 end
