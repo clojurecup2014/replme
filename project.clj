@@ -9,7 +9,7 @@
                  [http-kit "2.1.16"]
                  [compojure "1.1.9"]
                  [liberator "0.12.2"]
-                 [clj-http "1.0.0"]
+                 [docker "0.2.0"]
                  [javax.servlet/servlet-api "2.5"]
                  [org.clojure/tools.logging "0.2.6"]
                  [com.stuartsierra/component "0.2.2"]
