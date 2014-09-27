@@ -14,8 +14,10 @@
   (.send socket msg))
 
 (defn format-output
-  [message & args]
+  [message]
+  (println (list? message))
   (cond
+   (list? message) message
    (vector? message) (first message)
    (string? message) message
    :else "nil"))
