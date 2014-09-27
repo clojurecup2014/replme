@@ -5,7 +5,7 @@
 
 (enable-console-print!)
 
-(defn handle-command [input]
+(defn handle-command [input report]
   (let [line input]
     ;; evaluate line here and return that the as the value of "msg"...
     (array (js-obj
