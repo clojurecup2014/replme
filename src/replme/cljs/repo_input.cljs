@@ -15,6 +15,5 @@
   (println "call a function to handle submit here..."))
 
 (defn init []
-  (on $repo-input-form :submit on-repo-submit
-))
+  (on $repo-input-form :submit on-repo-submit))
 

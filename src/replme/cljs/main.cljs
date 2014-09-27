@@ -3,6 +3,8 @@
   (:require [replme.cljs.repo-input :as repo-input]
             [replme.cljs.repl :as repl]))
 
-(document-ready
+(defn initialize-app []
   (repl/init)
   (repo-input/init))
+
+(document-ready initialize-app)

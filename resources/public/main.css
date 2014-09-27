@@ -46,7 +46,7 @@ body {
     text-align: center;
 }
 
-#github-input:focus {
+#repo-input:focus {
     outline: 6px solid #1ad027;
 }
 
@@ -58,7 +58,7 @@ body {
     margin: 0 auto;
     background-color: #FFCD35;
     color: black;
-    padding:0.5em;
+    padding: 10px;
     overflow:auto
 }
 
