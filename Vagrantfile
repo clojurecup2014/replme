@@ -11,6 +11,7 @@ echo "DOCKER_OPTS=\"-H tcp://localhost:8181 -H unix:///var/run/docker.sock\"" > 
 sudo service docker.io restart
 wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -O /usr/local/bin/lein
 chmod a+x /usr/local/bin/lein
+docker.io pull edpaget/lein
 BASH
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
