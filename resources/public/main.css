@@ -31,11 +31,11 @@ body {
     margin: 25px 0;
 }
 
-#github-input-container {
+#repo-input-container {
     text-align: center;
 }
 
-#github-input {
+#repo-input {
     margin-bottom: 30px;
     line-height: 40px;
     width: 100%;

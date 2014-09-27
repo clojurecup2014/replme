@@ -16,8 +16,8 @@
 
       <h1 id="site-title">REPL ME</h1>
 
-      <div id="github-input-container">
-        <input id="github-input" placeholder="github-username/repo">
+      <div id="repo-input-container">
+        <input id="repo-input" placeholder="github-username/repo">
       </div>
 
       <div id="repl-container"></div>
@@ -28,5 +28,6 @@
   <script type="text/javascript" src="./externs/jquery_console.js"></script>
   <script src="out/goog/base.js" type="text/javascript"></script>
   <script src="replme.js" type="text/javascript"></script>
+  <script type="text/javascript">goog.require("replme.cljs.repl");</script>
   <script type="text/javascript">goog.require("replme.cljs.main");</script>
 </html>
