@@ -34,17 +34,18 @@ body {
     width: 20%;
     text-align: center;
     background-color: #000;
-    color: rgb(126, 255, 126);
+    color: rgb(0, 255, 0);
 }
 
 #loading-message {
     width: 100%;
-    max-width: 840px;
     margin: 0 auto;
     height: 200px;
-    background-color: #1ad027;
+    background-color: rgb(0, 204, 255);
     overflow: scroll;
     display: none;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 #repo-input-container {
@@ -64,6 +65,7 @@ body {
     border: none;
     font-size: 25px;
     padding: 0;
+    margin: 0;
     background: rgb(73, 73, 73);
     color: orange;
 }
