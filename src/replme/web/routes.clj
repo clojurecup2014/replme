@@ -8,7 +8,7 @@
 (defn- main-routes
   [docker]
   (routes
-   (GET "/repl" [:as req] (open-websocket (:client docker) req))
+   (GET "/repl" [repo :as req] (open-websocket (:client docker) req repo))
    (GET "/" [] (resp/resource-response "index.html" {:root "public"}))
    (route/resources "/")
    (route/not-found "/404.html"))) 

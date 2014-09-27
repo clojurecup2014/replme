@@ -22,15 +22,17 @@
     [output http-client]))
 
 (defn- docker-cmd
-  []
-  {:Image "edpaget/lein"
-   :Tty true
-   :Memory "256M"
-   :Cmd ["/opt/lein" "repl" ":headless" ":host" "0.0.0.0" ":port" "8081"]})
+  [args]
+  (let [args (if args (vector args) [])]
+    (log/info "Starting container from repo" args)
+    {:Image "edpaget/lein"
+     :Tty true
+     :Memory "256M"
+     :Cmd args}))
 
 (defn- start-docker
-  [client]
-  (let [container (container/create client (docker-cmd))
+  [client args]
+  (let [container (container/create client (docker-cmd args))
         id (:Id container)
         logs (docker-attach client id)]
     (container/start client id)
@@ -52,8 +54,8 @@
   (pr-str (vector msg)))
 
 (defn- docker-repl
-  [client in-chan out-chan]
-  (let [[id [stdout http-client]] (start-docker client)
+  [client args in-chan out-chan]
+  (let [[id [stdout http-client]] (start-docker client args)
         ip (docker-ip client id)
         port 8081]
     (go-loop [msg (<! stdout)]
@@ -95,12 +97,12 @@
       (recur (<! out-chan)))))
 
 (defn open-websocket
-  [docker-client req]
+  [docker-client req repo]
   (let [in-chan (chan)
         out-chan (chan)]
     (with-channel req channel
       (if (websocket? channel)
-        (let [[docker-id http-client] (docker-repl docker-client in-chan out-chan)
+        (let [[docker-id http-client] (docker-repl docker-client repo in-chan out-chan)
               send-chan (handle-out channel out-chan)]
           (log/info "Websocket Connected")
           (on-receive channel (handle-input in-chan))
