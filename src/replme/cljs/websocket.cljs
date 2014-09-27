@@ -13,17 +13,22 @@
   [socket msg]
   (.send socket msg))
 
+(defn format-output
+  [message & args]
+  (cond
+   (vector? message) (first message)
+   (string? message) message
+   :else "nil"))
+
 (defn handle-fn
   [out-chan]
   (fn [msg]
-    (go (if-let [val (->> (.-data msg)
-                          reader/read-string
-                          first)]
-          (>! out-chan val)
-          (>! out-chan "nil")))))
+    (go (>! out-chan (-> (.-data msg)
+                         reader/read-string
+                         (update-in [:message] format-output))))))
 
 (defn socket-out-pub
   [socket]
   (let [out-chan (chan)]
     (set! (.-onmessage socket) (handle-fn out-chan))
-    (pub out-chan (fn [] :socket-out))))
+    (pub out-chan (fn [{:keys [destination]}] (println destination) destination))))

@@ -68,7 +68,6 @@
                     command (<! in-chan)]
             (->> (repl/message client {:op :eval :code command})
                  repl/response-values
-                 prn-str
                  (out-msg :repl)
                  (>! out-chan))
             (recur repl-conn client (<! in-chan))))

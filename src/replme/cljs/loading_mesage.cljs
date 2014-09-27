@@ -9,8 +9,8 @@
 (def $loading-message ($ :#loading-message))
 
 (defn init [socket-out-pub]
-  (let [socket-out-sub (sub socket-out-pub :socket-out (chan))
+  (let [socket-out-sub (sub socket-out-pub :console (chan))
         loading-spinner ($ :#clojure-spinner)]
     (go-loop [msg (<! socket-out-sub)]
-             (when (= msg "REPL OK") (fade-out loading-spinner 500))
-             (recur (<! socket-out-sub)))))
+      (when (= msg "REPL OK") (fade-out loading-spinner 500))
+      (recur (<! socket-out-sub)))))

@@ -25,7 +25,7 @@
 
 (defn init [socket socket-out-pub]
   (let [socket socket
-        socket-out-sub (sub socket-out-pub :socket-out (chan))
+        socket-out-sub (sub socket-out-pub :repl (chan))
         console (.console $repl-container (repl-config socket))]
     (go-loop [msg (<! socket-out-sub)]
       (.report console (array (js-obj "msg" msg)))
