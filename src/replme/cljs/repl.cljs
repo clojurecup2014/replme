@@ -1,6 +1,5 @@
 (ns replme.cljs.repl
   (:require [cljs.core.async :refer [<! >!]]
-            [chord.client :refer [ws-ch]]
             [replme.cljs.websocket :as ws])
   (:use [jayq.core :only [$]])
   (:require-macros [cljs.core.async.macros :refer [go-loop]]))
