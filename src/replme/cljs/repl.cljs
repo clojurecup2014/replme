@@ -1,4 +1,4 @@
-p(ns replme.cljs.repl
+(ns replme.cljs.repl
   (:require [cljs.core.async :refer [<! >! sub chan]]
             [replme.cljs.websocket :as ws])
   (:use [jayq.core :only [$]])
