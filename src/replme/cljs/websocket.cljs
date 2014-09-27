@@ -1,5 +1,5 @@
 (ns replme.cljs.websocket
-  (:require [cljs.core.async :refer [>! chan]]
+  (:require [cljs.core.async :refer [>! chan pub]]
             [cljs.reader :as reader])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
@@ -22,8 +22,8 @@
           (>! out-chan val)
           (>! out-chan "nil")))))
 
-(defn socket-out-chan
+(defn socket-out-pub
   [socket]
   (let [out-chan (chan)]
     (set! (.-onmessage socket) (handle-fn out-chan))
-    out-chan))
+    (pub out-chan (fn [] :socket-out))))

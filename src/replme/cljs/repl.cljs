@@ -1,5 +1,5 @@
-(ns replme.cljs.repl
-  (:require [cljs.core.async :refer [<! >!]]
+p(ns replme.cljs.repl
+  (:require [cljs.core.async :refer [<! >! sub chan]]
             [replme.cljs.websocket :as ws])
   (:use [jayq.core :only [$]])
   (:require-macros [cljs.core.async.macros :refer [go-loop]]))
@@ -23,11 +23,10 @@
           "commandHandle" (handle-command in-chan)
           "promptHistory" true))
 
-(defn init []
-  (let [url-base (.-host js/location)
-        socket (ws/new-socket (str "ws://" url-base "/repl"))
-        socket-out (ws/socket-out-chan socket)
+(defn init [socket socket-out-pub]
+  (let [socket socket
+        socket-out-sub (sub socket-out-pub :socket-out (chan))
         console (.console $repl-container (repl-config socket))]
-    (go-loop [msg (<! socket-out)]
+    (go-loop [msg (<! socket-out-sub)]
       (.report console (array (js-obj "msg" msg)))
-      (recur (<! socket-out)))))
+      (recur (<! socket-out-sub)))))
