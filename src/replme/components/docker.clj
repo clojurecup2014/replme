@@ -8,15 +8,14 @@
   (start [component]
     (if (:client component) 
       component
-      (do
-        (log/info (str "Connecting to docker server at " url))
-        (assoc component :client (docker/make-client url)))))
+      (do (log/info (str "Connecting to docker server at " url))
+          (assoc component :client (docker/make-client url)))))
 
   (stop [component]
     (if-not (:client component)
       component
-      (log/info "Disconnected from Docker")
-      (dissoc component :client))))
+      (do (log/info "Disconnected from Docker")
+          (dissoc component :client)))))
 
 (defn new-docker
   [url]
