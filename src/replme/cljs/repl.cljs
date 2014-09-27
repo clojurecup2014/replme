@@ -1,25 +1,34 @@
 (ns replme.cljs.repl
-  (:use [jayq.core :only [$]]))
+  (:require [cljs.core.async :refer [<! >!]]
+            [chord.client :refer [ws-ch]]
+            [replme.cljs.websocket :as ws])
+  (:use [jayq.core :only [$]])
+  (:require-macros [cljs.core.async.macros :refer [go-loop]]))
 
 (def $repl-container ($ :#repl-container))
 
 (enable-console-print!)
 
-(defn handle-command [input report]
-  (let [line input]
-    ;; evaluate line here and return that the as the value of "msg"...
-    (array (js-obj
-            "msg" line
-            "className" "jquery-console-message-value"))))
+(defn handle-command
+  [socket]
+  (fn [input]
+    (ws/socket-send socket input)
+    (array (js-obj "msg" ""))))
 
-
-
-(def repl-config (js-obj "promptLabel" ">>"
-                         "autofocus" true
-                         "welcomeMessage" "Welcome! Type in some clojure to get started"
-                         "animateScroll" true
-                         "commandHandle" handle-command
-                         "promptHistory" true))
+(defn repl-config
+  [in-chan]
+  (js-obj "promptLabel" ">>"
+          "autofocus" true
+          "welcomeMessage" "Welcome! Type in some clojure to get started"
+          "animateScroll" true
+          "commandHandle" (handle-command in-chan)
+          "promptHistory" true))
 
 (defn init []
-  (.console $repl-container repl-config))
+  (let [url-base (.-host js/location)
+        socket (ws/new-socket (str "ws://" url-base "/repl"))
+        socket-out (ws/socket-out-chan socket)
+        console (.console $repl-container (repl-config socket))]
+    (go-loop [msg (<! socket-out)]
+      (.report console (array (js-obj "msg" msg)))
+      (recur (<! socket-out)))))
