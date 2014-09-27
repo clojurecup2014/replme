@@ -31,10 +31,29 @@ body {
     margin: 25px 0;
 }
 
+#github-input-container {
+    text-align: center;
+}
+
+#github-input {
+    margin-bottom: 30px;
+    line-height: 40px;
+    width: 100%;
+    border: none;
+    padding: 0 10px;
+    font-size: 25px;
+    max-width: 500px;
+    text-align: center;
+}
+
+#github-input:focus {
+    outline: 6px solid #1ad027;
+}
+
 #repl-container { font-size: 18px }
 
 #repl-container div.jquery-console-inner { 
-    width: 820px;
+    max-width: 820px;
     height: 400px;
     margin: 0 auto;
     background-color: #FFCD35;
@@ -64,7 +83,7 @@ body {
 }
 
 #repl-container div.jquery-console-message-value {
-    color:#1ad027;
+    color: #1ad027;
     padding:0.1em;
 }
 
