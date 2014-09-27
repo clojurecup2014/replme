@@ -1,0 +1,32 @@
+/* mini css reset */
+
+html, body, div, form, fieldset, legend, label {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6, th, td, caption {
+    font-weight: normal;
+    margin: 0;
+}
+
+img { border: 0; }
+
+body {
+    background-color: #0A92D6;
+    color: #fff;
+    font-family: 'Ubuntu Mono', sans-serif
+}
+
+#site-title {
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 25px;
+}
+
+#repl-container {
+    width: 820px;
+    min-height: 400px;
+    margin: 0 auto;
+    background-color: #FFCD35;
+}
