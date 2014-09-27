@@ -54,6 +54,10 @@ body {
     background: rgb(73, 73, 73);
 }
 
+#repo-input-form {
+    padding: 0 10px;
+}
+
 #repo-input {
     line-height: 80px;
     width: 100%;
