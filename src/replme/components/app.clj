@@ -8,7 +8,7 @@
   (start [component]
     (if server
       component
-      (let [s (run-server (handler)
+      (let [s (run-server (handler docker)
                           {:port port :join? false})]
         (log/info (str "Starting Server on port " port))
         (assoc component :server s))))
