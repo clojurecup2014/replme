@@ -16,6 +16,7 @@
                  [org.clojure/tools.nrepl "0.2.5"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [org.clojure/clojurescript "0.0-2311"]
+                 [jarohen/chord "0.4.2"]
                  [jayq "2.5.2"]]
 
   :plugins [[lein-cljsbuild "1.0.3"]]
