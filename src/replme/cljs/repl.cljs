@@ -1,5 +1,5 @@
 (ns replme.cljs.repl
-  (:use [jayq.core :only [$ css html document-ready]]))
+  (:use [jayq.core :only [$]]))
 
 (def $repl-container ($ :#repl-container))
 
