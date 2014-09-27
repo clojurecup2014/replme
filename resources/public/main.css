@@ -24,17 +24,20 @@ body {
     width: 10%;
 }
 
-#site-title {
-    font-size: 50px;
-    height: 80px;
+#site-title-container {
     margin: 0;
     float: left;
-    font-weight: bold;
-    letter-spacing: 5px;
+    height: 80px;
     width: 20%;
+    background-color: #313131;
     text-align: center;
-    background-color: #000;
-    color: rgb(0, 255, 0);
+}
+
+#site-title {
+    height: 80px;
+    width: 200px;
+    margin: 0;
+    background-color: #313131;
 }
 
 #loading-message {
@@ -76,12 +79,14 @@ body {
 
 #repl-container { font-size: 18px; }
 
-#repl-container div.jquery-console-inner { 
+#repl-container div.jquery-console-inner {
     height: 600px;
     margin: 0 auto;
-    background-color: #000;
+    background-color: #313131;
     padding: 10px;
     overflow:auto;
+    width: 100%;
+    box-sizing: border-box;
     float: left;
 }
 
@@ -130,19 +135,21 @@ body {
     #repo-input-container {
         width: 100%;
     }
-
-    #site-title {
-        font-size: 35px;
+    #site-title-container {
+        text-align: left;
+        width: 90%;
     }
 }
 
 @media screen and (max-width: 820px) {
-    #site-title {
-        width: 100%;
-    }
     #vote-for-us {
         display: none;
     }
+    #site-title-container {
+        text-align: center;
+        width: 100%;
+    }
+
 }
 
 .loader {
