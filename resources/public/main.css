@@ -47,6 +47,7 @@ body {
     height: 200px;
     background-color: rgb(0, 204, 255);
     overflow: scroll;
+    float: left;
     padding: 10px;
     box-sizing: border-box;
 }
