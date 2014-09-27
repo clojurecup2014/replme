@@ -49,9 +49,9 @@
   [client id]
   (container/stop client id))
 
-(defn- vectorize
-  [msg]
-  (pr-str (vector msg)))
+(defn- out-msg
+  [destination msg]
+  (pr-str {:message msg :destination destination}))
 
 (defn- docker-repl
   [client args in-chan out-chan]
@@ -62,16 +62,17 @@
       (if (re-find nrepl-sentinel msg)
         (do
           (log/info (str "Connecting to docker nrepl at" ip ":" port))
-          (>! out-chan (vectorize "REPL OK"))
+          (>! out-chan (out-msg :command "REPL OK"))
           (go-loop [repl-conn (repl/connect :host ip :port port)
                     client (repl/client repl-conn 1000)
                     command (<! in-chan)]
             (->> (repl/message client {:op :eval :code command})
                  repl/response-values
                  prn-str
+                 (out-msg :repl)
                  (>! out-chan))
             (recur repl-conn client (<! in-chan))))
-        (do (>! out-chan (vectorize msg))
+        (do (>! out-chan (out-msg :console msg))
             (recur (<! stdout)))))
     [id http-client]))
 
