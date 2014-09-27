@@ -25,6 +25,7 @@
   []
   {:Image "edpaget/lein"
    :Tty true
+   :Memory "256M"
    :Cmd ["/opt/lein" "repl" ":headless" ":host" "0.0.0.0" ":port" "8081"]})
 
 (defn- start-docker
@@ -46,6 +47,10 @@
   [client id]
   (container/stop client id))
 
+(defn- vectorize
+  [msg]
+  (pr-str (vector msg)))
+
 (defn- docker-repl
   [client in-chan out-chan]
   (let [[id [stdout http-client]] (start-docker client)
@@ -55,16 +60,16 @@
       (if (re-find nrepl-sentinel msg)
         (do
           (log/info (str "Connecting to docker nrepl at" ip ":" port))
-          (>! out-chan "REPL OK")
+          (>! out-chan (vectorize "REPL OK"))
           (go-loop [repl-conn (repl/connect :host ip :port port)
                     client (repl/client repl-conn 1000)
                     command (<! in-chan)]
             (->> (repl/message client {:op :eval :code command})
                  repl/response-values
                  prn-str
-                 (>! out-chan)))
-          (recur repl-conn (<! in-chan) client))
-        (do (>! out-chan msg)
+                 (>! out-chan))
+            (recur repl-conn client (<! in-chan))))
+        (do (>! out-chan (vectorize msg))
             (recur (<! stdout)))))
     [id http-client]))
 
