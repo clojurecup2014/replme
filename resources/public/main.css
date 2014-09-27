@@ -28,7 +28,7 @@ body {
 
 #repl-container div.jquery-console-inner { 
     width: 820px;
-    min-height: 400px;
+    height: 400px;
     margin: 0 auto;
     background-color: #FFCD35;
     color: black;

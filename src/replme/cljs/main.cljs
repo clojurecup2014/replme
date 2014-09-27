@@ -10,7 +10,10 @@
                          "autofocus" true
                          "welcomeMessage" "Welcome! Type in some clojure to get started"
                          "animateScroll" true
-                         "commandHandle" (fn [line] (array (js-obj "msg" line "className" "jquery-console-message-value")))
+                         "commandHandle" (fn [line]
+                                           (array (js-obj
+                                                   "msg" line
+                                                   "className" "jquery-console-message-value")))
                          "promptHistory" true))
 
 
