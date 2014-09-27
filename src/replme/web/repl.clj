@@ -1,17 +1,51 @@
 (ns replme.web.repl
-  (:require [clojure.core.async :refer [go <! <!! map< sub chan close! go-loop >! timeout alts!]]
+  (:require [clojure.core.async :refer [go <! >! <!! >!! chan close! go-loop]]
             [org.httpkit.server :refer [send! with-channel on-receive on-close open? websocket?]]
             [clojure.tools.logging :as log]
             [replme.web.resp :refer :all]
             [clojure.tools.nrepl :as repl]
             [docker.container :as container]))
 
+(defn try-times*
+  [n sleep thunk]
+  (loop [n n]
+    (if-let [result (try
+                      [(thunk)]
+                      (catch Exception e
+                        (if (zero? n)
+                          (throw e)
+                          (Thread/sleep sleep))))]
+      (result 0)
+      (recur (dec n)))))
+
+(defmacro try-times-with-sleep
+  [n sleep & body]
+  `(try-times* ~n ~sleep (fn [] ~@body)))
+
+(defn- docker-attach
+  [client id]
+  (let [output (chan)
+        buffer (container/attach client id :logs true :stdout true)]
+    (doseq [line (line-seq buffer)]
+      (println line))
+    (go (doseq [line (line-seq buffer)]
+          (>! output line)))
+    output))
+
+(defn- docker-cmd
+  []
+  {:Image "edpaget/lein"
+   :Tty true
+   :Cmd ["/opt/lein" "repl" ":headless" ":host" "0.0.0.0" ":port" "8081"]})
+
 (defn- start-docker
   [client]
-  (let [container (container/create client {:Image "edpaget/lein"})
-        id (:Id container)] 
+  (let [container (container/create client (docker-cmd))
+        id (:Id container)
+        logs (docker-attach client id)]
     (container/start client id)
-    id))
+    (log/info (str "Started container: " id))
+    [id logs]))
 
 (defn- docker-ip
   [client id]
@@ -23,31 +57,35 @@
   [client id]
   (container/stop client id))
 
-(defn- repl-connect
-  [ip])
-
 (defn- docker-repl
   [client in-chan out-chan]
-  (let [id (start-docker client)
+  (let [[id stdout] (start-docker client)
         ip (docker-ip client id)
-        port 8181]
-    (with-open [conn (repl/connect :host ip :port port)]
-      (let [client (repl/client conn 1000)]
-        (go-loop [command (<! in-chan)]
-          (repl/message client {:op :eval :code command})
-          (>! out-chan (repl/response-values client))
-          (recur (<! in-chan)))))
+        port 8081
+        repl-conn (try-times-with-sleep 10 1000
+                                        (repl/connect :host ip :port port))]
+    (log/info (str "Connecting to docker nrepl at " ip ":" port))
+    (go-loop [command (<! in-chan)
+              client (repl/client repl-conn 1000)]
+      (->> (repl/message client {:op :eval :code command})
+           repl/response-values
+           prn-str
+           (>! out-chan))
+      (recur (<! in-chan) client))
     id))
 
 (defn- handle-input
   [in-chan]
   (fn [data]
-    (<!! in-chan data)))
+    (log/info (str "Received: " data))
+    (>!! in-chan data)))
 
 (defn- handle-close
   [client id & chans]
-  (stop-docker client id)
-  (doseq [c chans] (close! c)))
+  (fn [_]
+    (log/info "Closing Repl Connnection")
+    (stop-docker client id)
+    (doseq [c chans] (close! c))))
 
 (defn- handle-out
   [channel out-chan]
