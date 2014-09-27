@@ -29,6 +29,18 @@ body {
     text-align: center;
     font-size: 50px;
     margin: 25px 0;
+    font-weight: bold;
+    letter-spacing: 5px;
+}
+
+#loading-message {
+    width: 100%;
+    max-width: 840px;
+    margin: 0 auto;
+    height: 200px;
+    background-color: #1ad027;
+    overflow: scroll;
+    display: none;
 }
 
 #repo-input-container {
@@ -50,7 +62,7 @@ body {
     outline: 6px solid #1ad027;
 }
 
-#repl-container { font-size: 18px }
+#repl-container { font-size: 18px; }
 
 #repl-container div.jquery-console-inner { 
     max-width: 820px;
