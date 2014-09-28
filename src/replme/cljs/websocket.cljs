@@ -33,4 +33,4 @@
   [socket]
   (let [out-chan (chan)]
     (set! (.-onmessage socket) (handle-fn out-chan))
-    (pub out-chan (fn [{:keys [destination]}] (println destination) destination))))
+    (pub out-chan (fn [{:keys [destination]}] destination))))
