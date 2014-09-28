@@ -86,10 +86,15 @@ body {
     margin: 0 auto;
     background-color: #313131;
     padding: 10px;
+    word-wrap: break-word;
     overflow:auto;
     width: 100%;
     box-sizing: border-box;
     float: left;
+}
+
+#repl-container div.jquery-console-inner.readme-open {
+    width: 50%
 }
 
 #repl-container div.jquery-console-prompt-box {
@@ -151,6 +156,33 @@ body {
         text-align: center;
         width: 100%;
     }
+}
+
+#readme-container {
+    display: none;
+    width: 50%;
+    float: left;
+    overflow: scroll;
+    box-sizing: border-box;
+    padding: 10px;
+    background: rgb(107, 107, 107);
+    height: 700px;
+}
+
+#readme-container .readme-close {
+    text-align: right;
+}
+
+#readme-container .readme-close span {
+    cursor: pointer;
+}
+
+#readme-container .readme-content a {
+    color: rgb(0, 204, 255);
+}
+
+#readme-container .readme-content a:visited {
+    color: rgb(0, 204, 255);
 }
 
 

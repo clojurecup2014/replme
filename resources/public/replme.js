@@ -15,4 +15,7 @@ goog.addDependency("../replme/cljs/loading_message.js", ['replme.cljs.loading_me
 goog.addDependency("../replme/cljs/repo_input.js", ['replme.cljs.repo_input'], ['cljs.core', 'cljs.core.async', 'jayq.core']);
 goog.addDependency("../replme/cljs/repl.js", ['replme.cljs.repl'], ['replme.cljs.websocket', 'cljs.core', 'cljs.core.async', 'jayq.core']);
 goog.addDependency("../replme/cljs/about_page.js", ['replme.cljs.about_page'], ['cljs.core', 'jayq.core']);
-goog.addDependency("../replme/cljs/main.js", ['replme.cljs.main'], ['replme.cljs.websocket', 'replme.cljs.repo_input', 'cljs.core', 'replme.cljs.repl', 'cljs.core.async', 'jayq.core', 'replme.cljs.about_page', 'replme.cljs.loading_message']);
+goog.addDependency("../markdown/transformers.js", ['markdown.transformers'], ['cljs.core', 'clojure.string']);
+goog.addDependency("../markdown/core.js", ['markdown.core'], ['cljs.core', 'markdown.transformers']);
+goog.addDependency("../replme/cljs/readme_section.js", ['replme.cljs.readme_section'], ['markdown.core', 'cljs.core', 'goog.crypt.base64', 'cljs.core.async', 'jayq.core', 'clojure.string']);
+goog.addDependency("../replme/cljs/main.js", ['replme.cljs.main'], ['replme.cljs.websocket', 'replme.cljs.repo_input', 'cljs.core', 'replme.cljs.repl', 'cljs.core.async', 'replme.cljs.readme_section', 'jayq.core', 'replme.cljs.about_page', 'replme.cljs.loading_message']);

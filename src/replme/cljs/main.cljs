@@ -5,6 +5,7 @@
             [replme.cljs.loading-message :as loading-message]
             [replme.cljs.websocket :as ws]
             [replme.cljs.about-page :as about-page]
+            [replme.cljs.readme-section :as readme]
             [cljs.core.async :refer [<! chan close!]])
   (:require-macros [cljs.core.async.macros :refer [go-loop]]))
 
@@ -39,6 +40,7 @@
       (repl/init socket socket-pub)
       (loading-message/init socket-pub)
       (repo-input/init comm-chan)
+      (readme/init comm-chan state)
       (about-page/init)
       (recur (assoc state :repo (<! comm-chan))))))
 
