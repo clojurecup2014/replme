@@ -25,7 +25,7 @@ body {
 #vote-for-us {
     right: 0px;
     top: 0px;
-    position: fixed;
+    position: absolute;
     height: 80px;
 }
 
@@ -44,6 +44,7 @@ body {
     margin: 0;
     vertical-align: middle;
     background-color: #313131;
+    cursor: pointer;
 }
 
 #loading-message {
@@ -143,26 +144,6 @@ body {
     font-weight:bold
 }
 
-@media screen and (max-width: 1080px) {
-    #repo-input-container {
-        width: 100%;
-    }
-    #site-title-container {
-        text-align: left;
-        width: 90%;
-    }
-}
-
-@media screen and (max-width: 820px) {
-    #vote-for-us {
-        display: none;
-    }
-    #site-title-container {
-        text-align: center;
-        width: 100%;
-    }
-}
-
 #readme-container {
     display: none;
     width: 50%;
@@ -228,6 +209,34 @@ body {
     font-size: 20px;
     line-height: 1.1em;
 }
+
+@media screen and (max-width: 1080px) {
+    #repo-input-container {
+        width: 100%;
+    }
+    #site-title-container {
+        text-align: left;
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 820px) {
+    #vote-for-us {
+        display: none;
+    }
+    #site-title-container {
+        text-align: center;
+        width: 100%;
+    }
+    #repl-container div.jquery-console-inner.readme-open {
+        width: 100%;
+    }
+    #readme-container {
+        width: 100%;
+    }
+}
+
+
 
 /* loader */
 #clojure-spinner {
