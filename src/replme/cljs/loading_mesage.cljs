@@ -1,7 +1,7 @@
 (ns replme.cljs.loading-message
   (:require [cljs.core.async :refer [<! >! chan sub]]
             [replme.cljs.websocket :as ws])
-  (:use [jayq.core :only [$ fade-out append prop anim height]])
+  (:use [jayq.core :only [$ fade-out append slide-up prop anim]])
   (:require-macros [cljs.core.async.macros :refer [go-loop]]))
 
 (enable-console-print!)
@@ -22,7 +22,9 @@
 
     (go-loop [msg (<! command-out-sub)]
              (if (= (:message msg) "REPL OK")
-               (fade-out loading-spinner 500))
+               (do
+                 (slide-up loading-message 500)
+                 (fade-out loading-spinner 500)))
              (recur (<! command-out-sub)))
 
     (go-loop [msg (<! console-out-sub)]
