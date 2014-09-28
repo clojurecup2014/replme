@@ -18,12 +18,9 @@
 
 (defn format-output
   [message]
-  (println (list? message))
-  (cond
-   (list? message) message
-   (vector? message) (first message)
-   (string? message) message
-   :else "nil"))
+  (if-not message
+    "nil"
+    message))
 
 (defn handle-fn
   [out-chan]

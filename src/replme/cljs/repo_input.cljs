@@ -20,8 +20,7 @@
 (defn on-repo-submit [e]
   (.preventDefault e)
   (display-loading-info)
-  (clear-input $repo-input)
-  )
+  (clear-input $repo-input))
 
 (defn init []
   (on $repo-input-form :submit on-repo-submit))

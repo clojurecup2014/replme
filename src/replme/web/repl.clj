@@ -50,7 +50,7 @@
 
 (defn- out-msg
   [destination msg]
-  (pr-str {:message msg :destination destination}))
+  {:message msg :destination destination})
 
 (defn- docker-repl
   [client args in-chan out-chan]
@@ -90,6 +90,7 @@
 (defn- handle-out
   [channel out-chan]
   (go-loop [msg (<! out-chan)]
+    (log/info "Sending" msg)
     (send! channel msg false)
     (when (open? channel)
       (recur (<! out-chan)))))
@@ -102,11 +103,28 @@
    (= "" message) false
    :else true))
 
-(defn- format-msgs
-  [msg]
-  msg)
+(defn- msg-hash
+  []
+  {:error {} :out "" :value nil :namespace nil})
 
-(def format-out (comp (map format-msgs) (filter not-empty?)))
+(defn formatter
+  [out-hash in-hash]
+  (reduce (fn [out-hash [k v]]
+            (cond 
+             (some #{k} [:ex :root-ex :err]) (update-in out-hash [:error] assoc k v)
+             (= k :out) (update-in out-hash [:out] str v)
+             (= k :ns) (assoc out-hash :namespace v)
+             (= k :value) (assoc out-hash :value v)
+             :else out-hash))
+          out-hash in-hash))
+
+(defn- format-msgs
+  [{:keys [message] :as msg}]
+  (cond
+   (string? message) msg
+   (seq? message) (assoc msg :message (reduce formatter (msg-hash) message))))
+
+(def format-out (comp (filter not-empty?) (map format-msgs) (map pr-str)))
 
 (defn open-websocket
   [docker-client req repo]
