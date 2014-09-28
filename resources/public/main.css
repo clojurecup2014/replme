@@ -188,6 +188,7 @@ body {
     background: rgba(0,0,0,.9);
     padding: 10px;
     box-sizing: border-box;
+    padding: 0 10%;
 }
 
 #about-container h1 {
@@ -214,6 +215,11 @@ er;
     color: #1ad027;
     font-size: 20px;
     line-height: 1.1em;
+}
+
+#about-container ul li {
+    list-style-type: none;
+    line-height: 1.3em;
 }
 
 @media screen and (max-width: 1080px) {
