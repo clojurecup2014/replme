@@ -29,20 +29,21 @@
     (.pushState js/history nil nil (str "/" repo))))
 
 (defn start-app [app-state comm-chan]
-  (go-loop [{:keys [repo socket] :as state} app-state]
-    (when socket
-      (ws/close-socket socket))
-    (when repo
-      (set-url repo))
-    (let [state (assoc state :socket (ws/new-socket (socket-url repo)))
-          state (assoc state :socket-pub (ws/socket-out-pub (:socket state)))
-          {:keys [socket socket-pub]} state]
-      (repl/init socket socket-pub)
-      (loading-message/init socket-pub)
-      (repo-input/init comm-chan)
-      (readme/init comm-chan state)
-      (about-page/init)
-      (recur (assoc state :repo (<! comm-chan))))))
+  (let [code-chan (chan)]
+    (go-loop [{:keys [repo socket] :as state} app-state]
+      (when socket
+        (ws/close-socket socket))
+      (when repo
+        (set-url repo))
+      (let [state (assoc state :socket (ws/new-socket (socket-url repo)))
+            state (assoc state :socket-pub (ws/socket-out-pub (:socket state)))
+            {:keys [socket socket-pub]} state]
+        (repl/init socket socket-pub code-chan)
+        (loading-message/init socket-pub)
+        (repo-input/init comm-chan)
+        (readme/init comm-chan state code-chan)
+        (about-page/init)
+        (recur (assoc state :repo (<! comm-chan)))))))
 
 (defn app-loop
   []

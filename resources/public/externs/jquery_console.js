@@ -755,6 +755,8 @@
       );
     };
 
+    extern.commandTrigger = commandTrigger;
+
     return extern;
   };
   // Simple utility for printing messages

@@ -172,6 +172,10 @@ body {
     color: rgb(0, 204, 255);
 }
 
+#readme-container pre:hover {
+  background: rgb(120, 120, 120);
+  cursor: pointer;
+}
 
 #about-container {
     display: none;
@@ -187,7 +191,8 @@ body {
 }
 
 #about-container h1 {
-    text-align: center;
+    text-align: cent
+er;
     color: rgb(0, 204, 255);
     margin-top: 50px;
     font-size: 60px;

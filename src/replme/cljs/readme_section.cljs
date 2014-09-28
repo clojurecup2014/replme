@@ -16,12 +16,17 @@
      (ajax (readme-url owner project))
      (fn [data]
        (go
-        (>! out (-> (.-content data)
-                    (b64/decodeString)
-                    (md->html))))))
+         (>! out (-> (.-content data)
+                     (b64/decodeString)
+                     (md->html))))))
     out))
 
-(defn init [comm-chan state]
+(defn get-text
+  [ev]
+  (or (.-textContent (.-target ev))
+      (.-innerText (.-target ev))))
+
+(defn init [comm-chan state out-chan]
   (let [$readme-container ($ :#readme-container)
         $readme-close (find $readme-container :.readme-close)
         $repl (find ($ :#repl-container) :.jquery-console-inner)
@@ -31,11 +36,12 @@
                                (slide-up $readme-container 500
                                          #(remove-class $repl "readme-open"))))
 
+    (println repo-name)
     (when-not (= repo-name "")
       (go
-       (add-class $repl "readme-open")
-       (-> $readme-container
-           (fade-in 500)
-           (find :.readme-content)
-           (html (<! (load-readme repo-name))))))))
-
+        (add-class $repl "readme-open")
+        (-> $readme-container
+            (fade-in 500)
+            (find :.readme-content)
+            (html (<! (load-readme repo-name)))
+            (on :click :pre (fn [ev] (go (>! out-chan (get-text ev))))))))))

@@ -16,7 +16,7 @@
     (go
       (log/info "Reading logs from: " url)
       (with-open  [http-client (http/create-client)]
-        (doseq [msg (http/string (http/stream-seq http-client :get url))]
+        (doseq [msg (http/string (http/stream-seq http-client :get url :timeout -1))]
           (log/info "Container" id "logs:" msg)
           (>! output msg))))
     output))
@@ -64,7 +64,7 @@
         ip (docker-ip client id)
         port 8081]
     (go-loop [msg (<! (timeout-stdout stdout))]
-      (log/info msg)
+      (log/info "MESSAGE" msg)
       (if (re-find nrepl-sentinel msg)
         (do
           (log/info (str "Connecting to docker nrepl at" ip ":" port))
