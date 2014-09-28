@@ -1,7 +1,7 @@
 (ns replme.cljs.loading-message
   (:require [cljs.core.async :refer [<! >! chan sub]]
             [replme.cljs.websocket :as ws])
-  (:use [jayq.core :only [$ fade-out append slide-down slide-up prop anim]])
+  (:use [jayq.core :only [$ fade-out on append slide-down slide-up prop anim]])
   (:require-macros [cljs.core.async.macros :refer [go-loop]]))
 
 (enable-console-print!)
@@ -18,7 +18,10 @@
   (let [console-out-sub (sub socket-out-pub :console (chan))
         command-out-sub (sub socket-out-pub :command (chan))
         loading-spinner ($ :#clojure-spinner)
-        loading-message ($ :#loading-message)]
+        loading-message ($ :#loading-message)
+        spinner-close ($ :#loader-close)]
+
+    (on spinner-close :click #(fade-out loading-spinner 500))
 
     (go-loop [msg (<! command-out-sub)]
       (if (= (:message msg) "REPL OK")

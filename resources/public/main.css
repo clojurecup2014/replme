@@ -267,6 +267,12 @@ er;
     color: rgba(0, 204, 255, 0.5);
 }
 
+#clojure-spinner #loader-close {
+    bottom: 0px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
 .loader {
     position: absolute;
     top: 50%;
