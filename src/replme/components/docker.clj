@@ -12,7 +12,7 @@
       (do (log/info (str "Connecting to docker server at " url))
           (let [client (docker/make-client url)]
             (doseq [old-container (map :Id (container/show-all client))]
-(println old-container)
+              (container/kill client old-container)
               (container/remove client old-container :force true))
             (assoc component :client client)))))
 

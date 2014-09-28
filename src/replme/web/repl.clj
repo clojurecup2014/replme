@@ -12,13 +12,14 @@
 (defn- docker-attach
   [client id]
   (let [output (chan)
-        url (str "http://" (:host client) "/containers/" id "/logs?stdout=1&follow=1") http-client (http/create-client)]
+        url (str "http://" (:host client) "/containers/" id "/logs?stdout=1&follow=1")]
     (go
       (log/info "Reading logs from: " url)
-      (doseq [msg (http/string (http/stream-seq http-client :get url))]
-        (log/info "Container" id "logs:" msg)
-        (>! output msg)))
-    [output http-client]))
+      (with-open  [http-client (http/create-client)]
+        (doseq [msg (http/string (http/stream-seq http-client :get url))]
+          (log/info "Container" id "logs:" msg)
+          (>! output msg))))
+    output))
 
 (defn- docker-cmd
   [args]
@@ -46,32 +47,35 @@
 
 (defn- stop-docker
   [client id]
+  (container/kill client id)
   (container/remove client id :force true))
 
 (defn- out-msg
-  [destination msg]
+  [msg destination]
   {:message msg :destination destination})
 
 (defn- docker-repl
   [client args in-chan out-chan]
-  (let [[id [stdout http-client]] (start-docker client args)
+  (let [[id stdout] (start-docker client args)
         ip (docker-ip client id)
         port 8081]
     (go-loop [msg (<! stdout)]
       (if (re-find nrepl-sentinel msg)
         (do
           (log/info (str "Connecting to docker nrepl at" ip ":" port))
-          (>! out-chan (out-msg :command "REPL OK"))
-          (go-loop [repl-conn (repl/connect :host ip :port port)
-                    client (repl/client repl-conn 1000)
-                    command (<! in-chan)]
-            (->> (repl/message client {:op :eval :code command})
-                 (out-msg :repl)
-                 (>! out-chan))
-            (recur repl-conn client (<! in-chan))))
-        (do (>! out-chan (out-msg :console msg))
+          (>! out-chan (out-msg "REPL OK" :command))
+          (go-loop [command (<! in-chan)]
+            (when command
+             (with-open [repl-conn (repl/connect :host ip :port port)]
+               (>! out-chan
+                   (-> (repl/client repl-conn 1000)
+                       (repl/message {:op :eval :code command})
+                       (out-msg :repl)))))
+            (recur (<! in-chan))))
+        
+        (do (>! out-chan (out-msg msg :console))
             (recur (<! stdout)))))
-    [id http-client]))
+    id))
 
 (defn- handle-input
   [in-chan]
@@ -84,7 +88,6 @@
   (fn [_]
     (log/info "Closing Repl Connnection")
     (stop-docker client id)
-    (http/close http-client)
     (doseq [c chans] (close! c))
     (log/info "Connection Closed!")))
 
