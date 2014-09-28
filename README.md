@@ -24,7 +24,7 @@ and try;
 ```clojure
 (defn afn
   [an-arg-fn]
-  (->> (map an-argn-fn [1 2 3 4 3 2 9 3])
+  (->> (map an-arg-fn [1 2 3 4 3 2 9 3])
        (map pr-str)
        (apply str)))
 
