@@ -46,7 +46,7 @@
 
 (defn- stop-docker
   [client id]
-  (container/stop client id))
+  (container/remove client id :force true))
 
 (defn- out-msg
   [destination msg]
@@ -85,7 +85,8 @@
     (log/info "Closing Repl Connnection")
     (stop-docker client id)
     (http/close http-client)
-    (doseq [c chans] (close! c))))
+    (doseq [c chans] (close! c))
+    (log/info "Connection Closed!")))
 
 (defn- handle-out
   [channel out-chan]
