@@ -236,8 +236,6 @@ body {
     }
 }
 
-
-
 /* loader */
 #clojure-spinner {
     display: none; /* TODO: REMOVE THIS LINE WHEN WE WANT THE LOADING SPINNER */
@@ -248,6 +246,14 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
+}
+
+#clojure-spinner p {
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+    width: 100%;
+    color: rgba(0, 204, 255, 0.5);
 }
 
 .loader {
