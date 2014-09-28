@@ -31,13 +31,17 @@
       <div id="clojure-spinner">
         <img src="./images/clojure-icon.gif" class="loader"/>
       </div>
+
+      <div id="about-container">
+        <h1>Welcome to REPL ME!</h1>
+        <p>Type in some clojure to evaluate it</p>
+        <p>Load up a clojure library from a github repo and try it out in the browser</p>
+      </div>
     </div>
   </body>
   <script type="text/javascript" src="./externs/jquery.js"></script>
   <script type="text/javascript" src="./externs/jquery_console.js"></script>
   <script src="out/goog/base.js" type="text/javascript"></script>
   <script src="replme.js" type="text/javascript"></script>
-  <script type="text/javascript">goog.require("replme.cljs.repl");</script>
-  <script type="text/javascript">goog.require("replme.cljs.repo_input");</script>
   <script type="text/javascript">goog.require("replme.cljs.main");</script>
 </html>

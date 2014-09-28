@@ -15,4 +15,5 @@ goog.addDependency("../replme/cljs/loading_message.js", ['replme.cljs.loading_me
 goog.addDependency("../jayq/util.js", ['jayq.util'], ['cljs.core']);
 goog.addDependency("../replme/cljs/repo_input.js", ['replme.cljs.repo_input'], ['cljs.core', 'jayq.core', 'jayq.util']);
 goog.addDependency("../replme/cljs/repl.js", ['replme.cljs.repl'], ['replme.cljs.websocket', 'cljs.core', 'cljs.core.async', 'jayq.core']);
-goog.addDependency("../replme/cljs/main.js", ['replme.cljs.main'], ['replme.cljs.websocket', 'replme.cljs.repo_input', 'cljs.core', 'replme.cljs.repl', 'jayq.core', 'replme.cljs.loading_message']);
+goog.addDependency("../replme/cljs/about_page.js", ['replme.cljs.about_page'], ['cljs.core', 'jayq.core']);
+goog.addDependency("../replme/cljs/main.js", ['replme.cljs.main'], ['replme.cljs.websocket', 'replme.cljs.repo_input', 'cljs.core', 'replme.cljs.repl', 'jayq.core', 'replme.cljs.about_page', 'replme.cljs.loading_message']);
