@@ -45,7 +45,7 @@
         (about-page/init)
         (recur (assoc state :repo (<! comm-chan)))))))
 
-(defn app-loop
+(defn  app-loop
   []
   (start-app {:repo (starting-repo)} (chan)))
 

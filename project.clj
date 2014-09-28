@@ -30,10 +30,9 @@
   :cljsbuild {
               :builds [{:id "replme"
                         :source-paths ["src"]
-                        :externs ["resources/public/externs/jquery.js",
-                                  "resources/public/externs/jquery_console.js"]
-                        :compiler {
-                                   :output-to "resources/public/replme.js"
+                        :externs [ "resources/public/externs/externs.js"
+                                   "resources/public/externs/jquery.js"
+                                   "resources/public/externs/jquery.console.js"]
+                        :compiler {:output-to "resources/public/replme.js"
                                    :output-dir "resources/public/out"
-                                   :optimizations :none
-                                   :source-map true}}]})
+                                   :optimizations :advanced}}]})
