@@ -1,7 +1,9 @@
 # REPLME
 [REPLME](http://replme.clojurecup.com) is a project aimed at making
 it easy to try out Clojure software by providing a containerized 
-environment to download libraries and run them. 
+environment to download libraries and run them.
+
+If you think this is rad it'd be sweet if you [voted for us](https://clojurecup.com/#/apps/replme).
 
 ## TryIt
 
@@ -34,7 +36,7 @@ and try;
 ```clojure
 (require '[clojure.string :as str :refer [join]])
 
-(join ["Vote" "for" "us" "in" "the" "Clojure" "Cup!"] " ")
+(join " " ["Vote" "for" "us" "in" "the" "Clojure" "Cup!"])
 ```
 
 ## Usage
