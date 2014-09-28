@@ -1,5 +1,5 @@
 (ns replme.web.repl
-  (:require [clojure.core.async :refer [go <! >! <!! >!! chan close! go-loop filter<]]
+  (:require [clojure.core.async :refer [go <! >! <!! >!! chan close! go-loop alts! timeout]]
             [org.httpkit.server :refer [send! with-channel on-receive on-close open? websocket?]]
             [http.async.client :as http]
             [clojure.tools.logging :as log]
@@ -54,23 +54,28 @@
   [msg destination]
   {:message msg :destination destination})
 
+(defn- timeout-stdout
+  [stdout]
+  (go (or (first (alts! [stdout (timeout 30000)] :priority true)) "server started")))
+
 (defn- docker-repl
   [client args in-chan out-chan]
   (let [[id stdout] (start-docker client args)
         ip (docker-ip client id)
         port 8081]
-    (go-loop [msg (<! stdout)]
+    (go-loop [msg (<! (timeout-stdout stdout))]
+      (log/info msg)
       (if (re-find nrepl-sentinel msg)
         (do
           (log/info (str "Connecting to docker nrepl at" ip ":" port))
           (>! out-chan (out-msg "REPL OK" :command))
           (go-loop [command (<! in-chan)]
             (when command
-             (with-open [repl-conn (repl/connect :host ip :port port)]
-               (>! out-chan
-                   (-> (repl/client repl-conn 1000)
-                       (repl/message {:op :eval :code command})
-                       (out-msg :repl)))))
+              (with-open [repl-conn (repl/connect :host ip :port port)]
+                (>! out-chan
+                    (-> (repl/client repl-conn 1000)
+                        (repl/message {:op :eval :code command})
+                        (out-msg :repl)))))
             (recur (<! in-chan))))
         
         (do (>! out-chan (out-msg msg :console))
