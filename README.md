@@ -55,7 +55,7 @@ lein run -m 8080 localhost:8181
 You'll also need to run `lein cljsbuild once` either on vagrant or
 your local machine to compile the front end.
 
-Once you've done that
+Once you've done that it should be running at `http://localhost:8080/`.
 
 ## License
 
