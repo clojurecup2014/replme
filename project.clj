@@ -8,7 +8,6 @@
   :dependencies [[org.clojure/clojure "1.7.0-alpha1"]
                  [http-kit "2.1.18"]
                  [compojure "1.1.9"]
-                 [liberator "0.12.2"]
                  [http.async.client "0.5.2"]
                  [docker "0.2.0"]
                  [org.slf4j/slf4j-simple "1.7.7"]
