@@ -35,8 +35,7 @@
     (on $readme-close :click (fn [e]
                                (slide-up $readme-container 500
                                          #(remove-class $repl "readme-open"))))
-
-    (println repo-name)
+    
     (when-not (= repo-name "")
       (go
         (add-class $repl "readme-open")
