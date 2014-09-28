@@ -1,5 +1,5 @@
 (ns replme.cljs.readme-section
-  (:use [jayq.core :only [$ on find fade-in html fade-out ajax done add-class]])
+  (:use [jayq.core :only [$ on find fade-in html slide-up ajax done remove-class add-class]])
   (:require [goog.crypt.base64 :as b64]
             [markdown.core :refer [md->html]]
             [clojure.string :as str]
@@ -27,7 +27,9 @@
         $repl (find ($ :#repl-container) :.jquery-console-inner)
         repo-name (:repo state)]
 
-    (on $readme-close :click #(fade-out $readme-container 500))
+    (on $readme-close :click (fn [e]
+                               (slide-up $readme-container 500
+                                         #(remove-class $repl "readme-open"))))
 
     (when-not (= repo-name "")
       (go
