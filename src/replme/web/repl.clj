@@ -64,7 +64,6 @@
         ip (docker-ip client id)
         port 8081]
     (go-loop [msg (<! (timeout-stdout stdout))]
-      (log/info "MESSAGE" msg)
       (if (re-find nrepl-sentinel msg)
         (do
           (log/info (str "Connecting to docker nrepl at" ip ":" port))
