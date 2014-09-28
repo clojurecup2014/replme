@@ -4,8 +4,6 @@
   (:use [jayq.core :only [$]])
   (:require-macros [cljs.core.async.macros :refer [go-loop]]))
 
-(def $repl-container ($ :#repl-container))
-
 (enable-console-print!)
 
 (defn handle-command
@@ -32,6 +30,7 @@
 (defn init [socket socket-out-pub]
   (let [socket socket
         socket-out-sub (sub socket-out-pub :repl (chan 1 (map :message)))
+        $repl-container ($ :#repl-container)
         console (.console $repl-container (repl-config socket))]
     (go-loop [{:keys [namespace] :as msg} (<! socket-out-sub)]
       (println msg)
