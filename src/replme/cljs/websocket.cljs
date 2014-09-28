@@ -9,6 +9,9 @@
   [url]
   (js/WebSocket. url))
 
+(defn close-socket [socket]
+  (.close socket 1000))
+
 (defn socket-send
   [socket msg]
   (.send socket msg))
