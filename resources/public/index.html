@@ -5,7 +5,7 @@
     <title>Repl Me</title>
     <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic' rel='stylesheet' type='text/css'>
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="/main.css">
   </head>
   <body>
     <div id="main">
@@ -15,7 +15,7 @@
       </a>
 
       <div id="site-title-container">
-        <img src="./images/replme-logo.png" id="site-title"/>
+        <img src="/images/replme-logo.png" id="site-title"/>
       </div>
 
       <div id="repo-input-container">
@@ -29,7 +29,7 @@
       <div id="repl-container"></div>
 
       <div id="clojure-spinner">
-        <img src="./images/clojure-icon.gif" class="loader"/>
+        <img src="/images/clojure-icon.gif" class="loader"/>
       </div>
 
       <div id="about-container">
@@ -39,9 +39,9 @@
       </div>
     </div>
   </body>
-  <script type="text/javascript" src="./externs/jquery.js"></script>
-  <script type="text/javascript" src="./externs/jquery_console.js"></script>
-  <script src="out/goog/base.js" type="text/javascript"></script>
-  <script src="replme.js" type="text/javascript"></script>
-  <script type="text/javascript">goog.require("replme.cljs.main");</script>
+  <script src="/externs/jquery.js"></script>
+  <script src="/externs/jquery_console.js"></script>
+  <script src="/out/goog/base.js"></script>
+  <script src="/replme.js"></script>
+  <script>goog.require("replme.cljs.main");</script>
 </html>
