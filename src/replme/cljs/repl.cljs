@@ -1,7 +1,7 @@
 (ns replme.cljs.repl
   (:require [cljs.core.async :refer [<! >! sub chan]]
             [replme.cljs.websocket :as ws])
-  (:use [jayq.core :only [$]])
+  (:use [jayq.core :only [$ empty]])
   (:require-macros [cljs.core.async.macros :refer [go-loop]]))
 
 (enable-console-print!)
@@ -30,7 +30,7 @@
 (defn init [socket socket-out-pub]
   (let [socket socket
         socket-out-sub (sub socket-out-pub :repl (chan 1 (map :message)))
-        $repl-container ($ :#repl-container)
+        $repl-container (empty ($ :#repl-container))
         console (.console $repl-container (repl-config socket))]
     (go-loop [{:keys [namespace] :as msg} (<! socket-out-sub)]
       (println msg)
