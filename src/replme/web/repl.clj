@@ -1,5 +1,5 @@
 (ns replme.web.repl
-  (:require [clojure.core.async :refer [go <! >! <!! >!! chan close! go-loop]]
+  (:require [clojure.core.async :refer [go <! >! <!! >!! chan close! go-loop filter<]]
             [org.httpkit.server :refer [send! with-channel on-receive on-close open? websocket?]]
             [http.async.client :as http]
             [clojure.tools.logging :as log]
@@ -12,8 +12,7 @@
 (defn- docker-attach
   [client id]
   (let [output (chan)
-        url (str "http://" (:host client) "/containers/" id "/logs?stdout=1&follow=1")
-        http-client (http/create-client)]
+        url (str "http://" (:host client) "/containers/" id "/logs?stdout=1&follow=1") http-client (http/create-client)]
     (go
       (log/info "Reading logs from: " url)
       (doseq [msg (http/string (http/stream-seq http-client :get url))]
@@ -95,10 +94,24 @@
     (when (open? channel)
       (recur (<! out-chan)))))
 
+(defn- not-empty?
+  [{:keys [message]}]
+  (cond
+   (= "\n" message) false
+   (= "\r\n" message) false
+   (= "" message) false
+   :else true))
+
+(defn- format-msgs
+  [msg]
+  msg)
+
+(def format-out (comp (map format-msgs) (filter not-empty?)))
+
 (defn open-websocket
   [docker-client req repo]
   (let [in-chan (chan)
-        out-chan (chan)]
+        out-chan (chan 1 format-out)]
     (with-channel req channel
       (if (websocket? channel)
         (let [[docker-id http-client] (docker-repl docker-client repo in-chan out-chan)
