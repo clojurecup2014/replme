@@ -250,7 +250,6 @@ er;
 
 /* loader */
 #clojure-spinner {
-    display: none; /* TODO: REMOVE THIS LINE WHEN WE WANT THE LOADING SPINNER */
     position: fixed;
     background: rgba(0,0,0,.5);
     opacity: 0.9;
