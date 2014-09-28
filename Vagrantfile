@@ -7,7 +7,7 @@ shell = <<BASH
 sudo apt-get update
 sudo apt-get upgrade -y
 sudo apt-get install -y docker.io openjdk-7-jre
-echo "DOCKER_OPTS=\"-H tcp://localhost:8181 -H unix:///var/run/docker.sock\"" > /etc/default/docker.io
+echo DOCKER_OPTS="-H tcp://localhost:8181 -H unix:///var/run/docker.sock" > /etc/default/docker.io
 sudo service docker.io restart
 wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -O /usr/local/bin/lein
 chmod a+x /usr/local/bin/lein
