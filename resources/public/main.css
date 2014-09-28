@@ -53,7 +53,8 @@ body {
     margin: 0 auto;
     height: 200px;
     background-color: rgb(0, 204, 255);
-    overflow: scroll;
+    overflow-y: scroll;
+    word-wrap: break-word;
     float: left;
     padding: 10px;
     box-sizing: border-box;
