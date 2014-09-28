@@ -13,12 +13,12 @@
     (array (js-obj "msg" ""))))
 
 (defn repl-config
-  [in-chan]
-  (js-obj "promptLabel" "user >"
+  [socket]
+  (js-obj "promptLabel" "user>"
           "autofocus" true
           "welcomeMessage" "Welcome! Type in some clojure to get started"
           "animateScroll" true
-          "commandHandle" (handle-command in-chan)
+          "commandHandle" (handle-command socket)
           "promptHistory" true))
 
 (defn format-msg

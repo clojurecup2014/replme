@@ -21,13 +21,13 @@
         loading-message ($ :#loading-message)]
 
     (go-loop [msg (<! command-out-sub)]
-             (if (= (:message msg) "REPL OK")
-               (do
-                 (slide-up loading-message 500)
-                 (fade-out loading-spinner 500)))
-             (recur (<! command-out-sub)))
+      (if (= (:message msg) "REPL OK")
+        (do
+          (slide-up loading-message 500)
+          (fade-out loading-spinner 500)))
+      (recur (<! command-out-sub)))
 
     (go-loop [msg (<! console-out-sub)]
-             (slide-down loading-message 500)
-             (append-text-to-container loading-message (str (:message msg) "<br>"))
-             (recur (<! console-out-sub)))))
+      (slide-down loading-message 500)
+      (append-text-to-container loading-message (str (:message msg) "<br>"))
+      (recur (<! console-out-sub)))))

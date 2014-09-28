@@ -13,24 +13,37 @@
   (str "ws://" (.-host js/location) "/repl"))
 
 (defn socket-url
+  [repo]
+  (if (empty? repo)
+    (base-url)
+    (str (base-url) "?repo=" repo)))
+
+(defn starting-repo
   []
-  (let [url-path (apply str (rest (.-pathname js/location)))]
-    (if (empty? url-path)
-      (base-url)
-      (str (base-url) "?repo=" url-path))))
+  (apply str (rest (.-pathname js/location))))
 
-(defn initialize-app []
-  (let [control-chan (chan)]
-    (go-loop [url (socket-url)]
-      (let [socket (ws/new-socket url)
-            socket-out (ws/socket-out-pub socket)]
-        (repl/init socket socket-out)
-        (loading-message/init socket-out)
-        (repo-input/init control-chan)
-        (about-page/init)
-        (when-let [new-repo (<! control-chan)]
-          (ws/close-socket socket)
-          (.pushState js/history (js-obj "state" 1) "next repo" (str "/" new-repo))
-          (recur (str (base-url) "?repo=" new-repo)))))))
+(defn set-url
+  [repo]
+  (when repo
+    (.pushState js/history nil nil (str "/" repo))))
 
-(document-ready initialize-app)
+(defn start-app [app-state comm-chan]
+  (go-loop [{:keys [repo socket] :as state} app-state]
+    (when socket
+      (ws/close-socket socket))
+    (when repo
+      (set-url repo))
+    (let [state (assoc state :socket (ws/new-socket (socket-url repo)))
+          state (assoc state :socket-pub (ws/socket-out-pub (:socket state)))
+          {:keys [socket socket-pub]} state]
+      (repl/init socket socket-pub)
+      (loading-message/init socket-pub)
+      (repo-input/init comm-chan)
+      (about-page/init)
+      (recur (assoc state :repo (<! comm-chan))))))
+
+(defn app-loop
+  []
+  (start-app {:repo (starting-repo)} (chan)))
+
+(document-ready app-loop)

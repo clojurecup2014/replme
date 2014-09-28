@@ -12,8 +12,7 @@ goog.addDependency("../replme/cljs/websocket.js", ['replme.cljs.websocket'], ['c
 goog.addDependency("../clojure/string.js", ['clojure.string'], ['goog.string', 'cljs.core', 'goog.string.StringBuffer']);
 goog.addDependency("../jayq/core.js", ['jayq.core'], ['cljs.core', 'clojure.string', 'cljs.reader']);
 goog.addDependency("../replme/cljs/loading_message.js", ['replme.cljs.loading_message'], ['replme.cljs.websocket', 'cljs.core', 'cljs.core.async', 'jayq.core']);
-goog.addDependency("../jayq/util.js", ['jayq.util'], ['cljs.core']);
-goog.addDependency("../replme/cljs/repo_input.js", ['replme.cljs.repo_input'], ['cljs.core', 'cljs.core.async', 'jayq.core', 'jayq.util']);
+goog.addDependency("../replme/cljs/repo_input.js", ['replme.cljs.repo_input'], ['cljs.core', 'cljs.core.async', 'jayq.core']);
 goog.addDependency("../replme/cljs/repl.js", ['replme.cljs.repl'], ['replme.cljs.websocket', 'cljs.core', 'cljs.core.async', 'jayq.core']);
 goog.addDependency("../replme/cljs/about_page.js", ['replme.cljs.about_page'], ['cljs.core', 'jayq.core']);
 goog.addDependency("../replme/cljs/main.js", ['replme.cljs.main'], ['replme.cljs.websocket', 'replme.cljs.repo_input', 'cljs.core', 'replme.cljs.repl', 'cljs.core.async', 'jayq.core', 'replme.cljs.about_page', 'replme.cljs.loading_message']);
